@@ -50,3 +50,4 @@ class pic_repeat():
         self.conn.close()
 if __name__ == '__main__':
     p = pic_repeat(host='127.0.0.1',user='root',passwd='123456',port=3306,db='pic',path="F:\\我的壁纸")
+    p.scan()
