@@ -30,7 +30,7 @@ datas = {
     'st': 0,
     'end': 1000,
     'sort': 0,
-    'bkn': 自己手动获取
+    'bkn': "自己手动获取"
 }
 headerss = {
     'useragent':'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.15 Safari/537.36',
