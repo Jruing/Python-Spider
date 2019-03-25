@@ -5,7 +5,8 @@ itchat.auto_login(hotReload=True)
 itchat.run()
 friends = itchat.get_friends(update=True)[1:]
 print(friends)
-for i,f in enumerate(friends):
+i = 0
+for f in friends:
     i += 1
     print('正在检测第{0}/{1}位好友,昵称:{2}'.format(i,len(friends),f['UserName']))
     itchat.send('Python Auto Send! జ్ఞ ా',toUserName=f['UserName'])
