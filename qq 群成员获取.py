@@ -2,7 +2,7 @@
 # 2018/7/6
 # Author:Scar丶殇痕
 import requests
-from lxml import etree
+import re
 from fake_useragent import UserAgent
 import time
 import json,jsonpath
@@ -12,8 +12,20 @@ header = {
     'useragent':UserAgent().chrome,
     'cookie':"自己手动获取"
 }
+skey = re.compile(" skey=(.*?);",re.S).findall(header['cookie'])[0]
+def Get_Bkn(skey):
+    # e = "@2eUVemMTP"
+    e = "{0}".format(skey)
+    t = 5381
+    n = 0
+    o = len(e)
+    while n < o:
+        t += (t << 5) + ord(e[n])
+        n+=1
+    t = 2147483647 & t
+    print(t)
 data = {
-    'bkn': '自己手动获取'
+    'bkn': '{0}'.format(Get_Bkn(skey))
 }
 response = requests.post(url,headers=header,data=data)
 responses = requests.post(url1,headers=header,data=data)
@@ -36,6 +48,7 @@ headerss = {
     'useragent':'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.15 Safari/537.36',
     'cookie':"***"
 }
+
 qcy_url = "https://qun.qq.com/cgi-bin/qun_mgr/search_group_members"
 qunchengy = requests.post(qcy_url,headers=headerss,data=datas)
 menmbers = json.loads(qunchengy.text)
