@@ -3,6 +3,7 @@
 # 2018/10/28
 import requests
 import re
+from prettytable import PrettyTable
 class KuWo_music():
     def __init__(self):
         pass
@@ -11,6 +12,7 @@ class KuWo_music():
         response = requests.get("http://sou.kuwo.cn/ws/NSearch?type=music&key={0}".format(name)).text
         return response
     def parse(self):
+        table = PrettyTable(['歌曲名称','歌手','歌曲id'])
         response = self.req()
         songinfo = re.compile('<a href="http://www.kuwo.cn/yinyue/(\d+)/" title="(.*?)" target="_blank">.*?<p class="s_name"><a href="http://www.kuwo.cn/mingxing/.*?/" target="_blank" title="(.*?)">',re.S).findall(response)
         for song in songinfo:
@@ -19,11 +21,14 @@ class KuWo_music():
             songer = song[2]
             # 下载链接
             song_res = requests.get("http://antiserver.kuwo.cn/anti.s?format=aac|mp3&rid={0}&type=convert_url&response=res".format(songid)).url
-            file = requests.get(song_res).content
-            filename = "{0}-{1}-{2}.aac".format(songname,songer,songid)
-            with open(filename,'wb+') as f:
-                f.write(file)
-                print("{0}-{1}-{2}.aac>>>>>>成功".format(songname,songer,songid))
+            table.add_row([songname,songer,songid])
+            table.reversesort = True
+        print(table)
+            # file = requests.get(song_res).content
+            # filename = "{0}-{1}-{2}.aac".format(songname,songer,songid)
+            # with open(filename,'wb+') as f:
+            #     f.write(file)
+            #     print("{0}-{1}-{2}.aac>>>>>>成功".format(songname,songer,songid))
 if __name__ == '__main__':
     k = KuWo_music()
     k.parse()
